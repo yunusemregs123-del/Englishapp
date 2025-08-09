@@ -372,22 +372,59 @@ const closeWordbookBtn = document.getElementById("close-wordbook-btn");
 
 let wordBook = JSON.parse(localStorage.getItem("wordBook") || "{}");
 
-// Cümleyi göster, kelimeleri tıklanabilir yap
-function showSentence() {
-  if (usedIndices.size === sentences.length) {
-    alert("Tüm cümleler gösterildi! Yeni cümleler ekle.");
-    return;
-  }
-  do {
-    currentIndex = Math.floor(Math.random() * sentences.length);
-  } while (usedIndices.has(currentIndex));
-  usedIndices.add(currentIndex);
+// Cümleyi kelimelere ayırıp her kelimeyi span içine alalım
+function renderSentence(sentence) {
+  const sentenceElement = document.getElementById('sentence');
+  sentenceElement.innerHTML = ''; // önce temizle
 
-  const sentence = sentences[currentIndex];
-  engSentenceEl.innerHTML = makeClickable(sentence.eng);
-  trSentenceEl.textContent = sentence.tr;
+  // Kelimeleri ayır (boşluk ve noktalama dahil)
+  const words = sentence.eng.split(/(\s+|\b)/);
+
+  words.forEach(word => {
+    if (word.trim() === '') {
+      // boşluk veya noktalama ise direkt ekle
+      sentenceElement.innerHTML += word;
+    } else {
+      // kelimeyse span içine al
+      const span = document.createElement('span');
+      span.textContent = word;
+      span.style.cursor = 'pointer';
+      span.style.color = '#007bff';
+      span.style.userSelect = 'none';
+      
+      // Kelimeye tıklandığında anlamı göster ve kelimeyi kaydet
+      span.addEventListener('click', (e) => {
+        e.stopPropagation(); // cümle tıklama olayını engelle
+        showTranslation(getWordMeaning(word)); // anlamı gösteren fonksiyon
+        saveWord(word); // kelimeyi kaydeden fonksiyon
+      });
+      
+      sentenceElement.appendChild(span);
+    }
+  });
 }
 
+// Anlamı bulmak için basit örnek fonksiyon (sen kelime anlamlarını JSON veya başka yerde tutabilirsin)
+function getWordMeaning(word) {
+  // Örnek: kelime anlamlarını dictionary objesinde tutabilirsin
+  const dictionary = {
+    "team": "takım",
+    "is": "dır",
+    "preparing": "hazırlanıyor",
+    // ... devamı sen doldur
+  };
+  return dictionary[word.toLowerCase()] || "Anlamı bulunamadı";
+}
+
+// Kelimeyi kaydetmek için örnek fonksiyon (localStorage veya başka yerde)
+function saveWord(word) {
+  let savedWords = JSON.parse(localStorage.getItem('savedWords') || "[]");
+  if (!savedWords.includes(word)) {
+    savedWords.push(word);
+    localStorage.setItem('savedWords', JSON.stringify(savedWords));
+  }
+  // istersen buraya bir bildirim ekleyebilirsin
+}
 // Kelimeleri <span> ile tıklanabilir yap
 function makeClickable(text) {
   const words = text.split(/\\s+/);
