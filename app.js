@@ -372,66 +372,43 @@ const closeWordbookBtn = document.getElementById("close-wordbook-btn");
 
 let wordBook = JSON.parse(localStorage.getItem("wordBook") || "{}");
 
-// Cümleyi kelimelere ayırıp her kelimeyi span içine alalım
+// Cümleyi kelimelere ayırıp kelimeleri tıklanabilir yapar
 function renderSentence(sentence) {
-  const sentenceElement = document.getElementById('sentence');
-  sentenceElement.innerHTML = ''; // önce temizle
+  engSentenceEl.innerHTML = ""; // Temizle
 
-  // Kelimeleri ayır (boşluk ve noktalama dahil)
-  const words = sentence.eng.split(/(\s+|\b)/);
+  // Kelimeleri boşluk ve noktalama dahil ayır
+  const words = sentence.split(/(\s+|[.,?!;:])/);
 
   words.forEach(word => {
-    if (word.trim() === '') {
-      // boşluk veya noktalama ise direkt ekle
-      sentenceElement.innerHTML += word;
+    if (word.trim() === "") {
+      engSentenceEl.innerHTML += word; // boşluk veya noktalama
     } else {
-      // kelimeyse span içine al
-      const span = document.createElement('span');
+      const span = document.createElement("span");
       span.textContent = word;
-      span.style.cursor = 'pointer';
-      span.style.color = '#007bff';
-      span.style.userSelect = 'none';
-      
-      // Kelimeye tıklandığında anlamı göster ve kelimeyi kaydet
-      span.addEventListener('click', (e) => {
-        e.stopPropagation(); // cümle tıklama olayını engelle
-        showTranslation(getWordMeaning(word)); // anlamı gösteren fonksiyon
-        saveWord(word); // kelimeyi kaydeden fonksiyon
+      span.classList.add("clickable-word");
+      span.style.cursor = "pointer";
+      span.style.color = "#007bff";
+      span.style.userSelect = "none";
+
+      // Kelimeye tıklanınca popup ve kelime defterine ekleme
+      span.addEventListener("click", (e) => {
+        e.stopPropagation();
+        addToWordBook(word);
+        const rect = e.target.getBoundingClientRect();
+        showWordPopup(word, rect.left, rect.bottom);
       });
-      
-      sentenceElement.appendChild(span);
+
+      engSentenceEl.appendChild(span);
     }
   });
 }
 
-// Anlamı bulmak için basit örnek fonksiyon (sen kelime anlamlarını JSON veya başka yerde tutabilirsin)
-function getWordMeaning(word) {
-  // Örnek: kelime anlamlarını dictionary objesinde tutabilirsin
-  const dictionary = {
-    "team": "takım",
-    "is": "dır",
-    "preparing": "hazırlanıyor",
-    // ... devamı sen doldur
-  };
-  return dictionary[word.toLowerCase()] || "Anlamı bulunamadı";
+// Türkçe cümleyi göster
+function renderTranslation(translation) {
+  trSentenceEl.textContent = translation;
 }
 
-// Kelimeyi kaydetmek için örnek fonksiyon (localStorage veya başka yerde)
-function saveWord(word) {
-  let savedWords = JSON.parse(localStorage.getItem('savedWords') || "[]");
-  if (!savedWords.includes(word)) {
-    savedWords.push(word);
-    localStorage.setItem('savedWords', JSON.stringify(savedWords));
-  }
-  // istersen buraya bir bildirim ekleyebilirsin
-}
-// Kelimeleri <span> ile tıklanabilir yap
-function makeClickable(text) {
-  const words = text.split(/\\s+/);
-  return words.map(word => `<span class="clickable-word">${word}</span>`).join(" ");
-}
-
-// Popup aç ve kelimeyi kaydetme seçeneği sun
+// Popup açar
 function showWordPopup(word, x, y) {
   const lowerWord = word.toLowerCase().replace(/[.,?!;:]$/, "");
   let meaning = wordBook[lowerWord] || "Kelime defterinde kayıtlı değil.";
@@ -441,15 +418,13 @@ function showWordPopup(word, x, y) {
   wordPopup.style.top = y + "px";
   wordPopup.classList.add("visible");
 
-  // 3 saniye sonra otomatik kapat
   setTimeout(() => wordPopup.classList.remove("visible"), 3000);
 }
 
-// Kelime defterini güncelle ve kaydet
+// Kelime defterine ekler (ve prompt ile anlam sorar)
 function addToWordBook(word) {
   const lowerWord = word.toLowerCase().replace(/[.,?!;:]$/, "");
   if (!(lowerWord in wordBook)) {
-    // Basit Türkçe anlamı prompt ile sorabiliriz (istersen geliştirebiliriz)
     const meaning = prompt(`"${word}" kelimesinin Türkçe anlamını gir:`);
     if (meaning && meaning.trim()) {
       wordBook[lowerWord] = meaning.trim();
@@ -462,7 +437,7 @@ function addToWordBook(word) {
   }
 }
 
-// Kelime defterini listele
+// Kelime defterini listeler
 function renderWordBook() {
   wordListEl.innerHTML = "";
   for (const [word, meaning] of Object.entries(wordBook)) {
@@ -475,17 +450,23 @@ function renderWordBook() {
   }
 }
 
+// Cümleleri rastgele seç ve göster (örnek sentences dizin olsun)
+function showSentence() {
+  if (usedIndices.size === sentences.length) {
+    usedIndices.clear(); // Baştan başla
+  }
+  do {
+    currentIndex = Math.floor(Math.random() * sentences.length);
+  } while (usedIndices.has(currentIndex));
+  usedIndices.add(currentIndex);
+
+  const sentence = sentences[currentIndex];
+  renderSentence(sentence.eng);
+  renderTranslation(sentence.tr);
+}
+
 // Olay dinleyiciler
 nextBtn.addEventListener("click", showSentence);
-
-engSentenceEl.addEventListener("click", e => {
-  if (e.target.classList.contains("clickable-word")) {
-    const word = e.target.textContent;
-    const rect = e.target.getBoundingClientRect();
-    addToWordBook(word);
-    showWordPopup(word, rect.left, rect.bottom);
-  }
-});
 
 showWordbookBtn.addEventListener("click", () => {
   wordBookSection.classList.remove("hidden");
@@ -495,6 +476,6 @@ closeWordbookBtn.addEventListener("click", () => {
   wordBookSection.classList.add("hidden");
 });
 
-// İlk cümleyi göster
+// İlk cümleyi göster ve kelime defterini render et
 showSentence();
 renderWordBook();
