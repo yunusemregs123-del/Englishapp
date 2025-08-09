@@ -1,92 +1,122 @@
 const sentences = [
-  { eng: "She decided to embrace the challenge with enthusiasm.", tr: "O, meydan okumayı coşkuyla benimsemeye karar verdi." },
-  { eng: "The curious cat jumped over the lazy dog.", tr: "Meraklı kedi tembel köpeğin üzerinden atladı." },
-  { eng: "Time flies when you're having fun.", tr: "Eğlenirken zaman su gibi akar." },
-  { eng: "Learning a new language opens many doors.", tr: "Yeni bir dil öğrenmek birçok kapıyı açar." },
-  { eng: "Consistency is the key to mastering English.", tr: "Tutarlılık İngilizceyi ustalıkla öğrenmenin anahtarıdır." },
-  { eng: "Practice makes perfect.", tr: "Pratik mükemmelleştirir." },
-  { eng: "Don’t be afraid to make mistakes.", tr: "Hata yapmaktan korkma." },
-  { eng: "Every day is a new opportunity to improve.", tr: "Her gün gelişmek için yeni bir fırsattır." },
-  { eng: "Speak confidently and listen carefully.", tr: "Kendinden emin konuş ve dikkatle dinle." },
-  { eng: "Reading expands your vocabulary naturally.", tr: "Okuma kelime dağarcığını doğal olarak genişletir." },
-  { eng: "Success requires patience and hard work.", tr: "Başarı sabır ve sıkı çalışma gerektirir." },
-  { eng: "Be curious, always ask questions.", tr: "Meraklı ol, her zaman soru sor." },
-  { eng: "Travel broadens the mind and soul.", tr: "Seyahat zihin ve ruhu genişletir." },
-  { eng: "Dream big and act bigger.", tr: "Büyük hayal kur ve daha büyük hareket et." },
-  { eng: "Mistakes are proof that you’re trying.", tr: "Hatalar denediğinin kanıtıdır." },
-  { eng: "Believe in yourself no matter what.", tr: "Ne olursa olsun kendine inan." },
-  { eng: "Reading daily improves your language skills.", tr: "Günlük okumak dil becerilerini geliştirir." },
-  { eng: "A positive attitude changes everything.", tr: "Pozitif tutum her şeyi değiştirir." },
-  { eng: "Listen more than you speak.", tr: "Konuşmaktan çok dinle." },
-  { eng: "Make learning a daily habit.", tr: "Öğrenmeyi günlük alışkanlık yap." },
-  { eng: "Focus on progress, not perfection.", tr: "Mükemmellik değil, gelişime odaklan." },
-  { eng: "Set clear goals and chase them.", tr: "Net hedefler koy ve onları kovala." },
-  { eng: "Celebrate small wins every day.", tr: "Her gün küçük zaferleri kutla." },
-  { eng: "Stay curious, stay humble.", tr: "Meraklı kal, alçakgönüllü kal." },
-  { eng: "Hard work beats talent when talent doesn’t work hard.", tr: "Sıkı çalışma, yetenek çalışmadığında onu yener." },
-  { eng: "Surround yourself with positive people.", tr: "Kendini pozitif insanlarla çevrele." },
-  { eng: "Don’t compare yourself to others.", tr: "Kendini başkalarıyla kıyaslama." },
-  { eng: "Learning never stops.", tr: "Öğrenme asla durmaz." },
-  { eng: "Be patient with your progress.", tr: "İlerlemen konusunda sabırlı ol." },
-  { eng: "Every expert was once a beginner.", tr: "Her uzman bir zamanlar acemiydi." },
-  { eng: "Take breaks, don’t burn out.", tr: "Mola ver, tükenme." },
-  { eng: "Practice daily, improve steadily.", tr: "Günlük pratik yap, istikrarlı ilerle." },
-  { eng: "Keep your goals visible.", tr: "Hedeflerini görünür tut." },
-  { eng: "Learn from failures, not just success.", tr: "Başarı kadar başarısızlıklardan da öğren." },
-  { eng: "Challenge yourself every day.", tr: "Her gün kendine meydan oku." },
-  { eng: "Stay focused and ignore distractions.", tr: "Odaklan ve dikkat dağıtıcıları görmezden gel." },
-  { eng: "Use technology to your advantage.", tr: "Teknolojiyi avantajına kullan." },
-  { eng: "Stay motivated by tracking progress.", tr: "İlerlemeni takip ederek motive ol." },
-  { eng: "Ask for help when needed.", tr: "Gerekirse yardım iste." },
-  { eng: "Visualize your success.", tr: "Başarını gözünde canlandır." },
-  { eng: "Keep a journal of new sentences.", tr: "Yeni cümlelerin günlüğünü tut." },
-  { eng: "Teach what you learn.", tr: "Öğrendiklerini başkalarına öğret." },
-  { eng: "Stay consistent even when it’s hard.", tr: "Zor olsa bile tutarlı kal." },
-  { eng: "Be proud of your effort.", tr: "Çabanla gurur duy." },
-  { eng: "Celebrate progress, not just results.", tr: "Sadece sonuçları değil, ilerlemeyi de kutla." },
-  { eng: "Focus on communication, not just grammar.", tr: "Sadece gramer değil, iletişime odaklan." },
-  { eng: "Enjoy the process of learning.", tr: "Öğrenme sürecinin tadını çıkar." },
+  // Günlük ve iş hayatı odaklı örnek cümleler (sen ekleyip genişletebilirsin)
+  { eng: "Can you send me the report by tomorrow?", tr: "Raporu yarına kadar gönderebilir misin?" },
+  { eng: "I have a meeting with the client at 3 PM.", tr: "Saat 3'te müşteriyle toplantım var." },
+  { eng: "Please update the spreadsheet with the latest data.", tr: "Lütfen tabloyu en son verilerle güncelle." },
+  { eng: "The market is very competitive these days.", tr: "Piyasa şu günlerde çok rekabetçi." },
+  { eng: "Could you help me find the right product?", tr: "Doğru ürünü bulmama yardımcı olabilir misin?" },
+  { eng: "The professor explained the concept very clearly.", tr: "Profesör konsepti çok net açıkladı." },
+  { eng: "I need to finish this assignment before the deadline.", tr: "Bu ödevi son teslim tarihinden önce bitirmem gerekiyor." },
+  { eng: "Don't forget to submit your timesheet today.", tr: "Bugün çalışma saatlerinizi teslim etmeyi unutmayın." },
+  { eng: "We should schedule a team meeting next week.", tr: "Gelecek hafta bir ekip toplantısı planlamalıyız." },
+  { eng: "The university library has a vast collection of books.", tr: "Üniversite kütüphanesinde geniş bir kitap koleksiyonu var." },
+  { eng: "I'm looking for a job in the marketing department.", tr: "Pazarlama departmanında iş arıyorum." },
+  { eng: "Please review the document and give me feedback.", tr: "Lütfen dokümanı inceleyip bana geri bildirim ver." },
+  { eng: "The new software will improve our productivity.", tr: "Yeni yazılım verimliliğimizi artıracak." },
+  { eng: "She submitted her thesis last month.", tr: "Geçen ay tezini teslim etti." },
+  { eng: "We need to prepare for the upcoming conference.", tr: "Yaklaşan konferansa hazırlanmalıyız." },
 ];
 
-const engSentence = document.getElementById("english-sentence");
-const trSentence = document.getElementById("turkish-translation");
+let usedIndices = new Set();
+let currentIndex = -1;
+
+const engSentenceEl = document.getElementById("english-sentence");
+const trSentenceEl = document.getElementById("turkish-translation");
 const nextBtn = document.getElementById("next-btn");
-const progressBar = document.getElementById("progress-bar");
+const wordPopup = document.getElementById("word-popup");
+const showWordbookBtn = document.getElementById("show-wordbook-btn");
+const wordBookSection = document.getElementById("word-book-section");
+const wordListEl = document.getElementById("word-list");
+const closeWordbookBtn = document.getElementById("close-wordbook-btn");
 
-const DAILY_AMOUNT = 15;
-let dailySentences = [];
-let currentIndex = 0;
+let wordBook = JSON.parse(localStorage.getItem("wordBook") || "{}");
 
-function pickRandomSentences(amount) {
-  let shuffled = [...sentences].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, amount);
-}
-
-function showSentence(index) {
-  const { eng, tr } = dailySentences[index];
-  engSentence.textContent = eng;
-  trSentence.textContent = tr;
-  engSentence.parentElement.style.animation = "none"; // Reset animasyon
-  void engSentence.parentElement.offsetWidth; // Trigger reflow
-  engSentence.parentElement.style.animation = null; // Animasyonu tekrar başlat
-  updateProgress(index);
-}
-
-function updateProgress(index) {
-  let progress = ((index + 1) / DAILY_AMOUNT) * 100;
-  progressBar.style.width = progress + "%";
-}
-
-nextBtn.addEventListener("click", () => {
-  currentIndex++;
-  if (currentIndex >= dailySentences.length) {
-    dailySentences = pickRandomSentences(DAILY_AMOUNT);
-    currentIndex = 0;
-    alert("Great job! New sentences loaded for you.");
+// Cümleyi göster, kelimeleri tıklanabilir yap
+function showSentence() {
+  if (usedIndices.size === sentences.length) {
+    alert("Tüm cümleler gösterildi! Yeni cümleler ekle.");
+    return;
   }
-  showSentence(currentIndex);
+  do {
+    currentIndex = Math.floor(Math.random() * sentences.length);
+  } while (usedIndices.has(currentIndex));
+  usedIndices.add(currentIndex);
+
+  const sentence = sentences[currentIndex];
+  engSentenceEl.innerHTML = makeClickable(sentence.eng);
+  trSentenceEl.textContent = sentence.tr;
+}
+
+// Kelimeleri <span> ile tıklanabilir yap
+function makeClickable(text) {
+  const words = text.split(/\\s+/);
+  return words.map(word => `<span class="clickable-word">${word}</span>`).join(" ");
+}
+
+// Popup aç ve kelimeyi kaydetme seçeneği sun
+function showWordPopup(word, x, y) {
+  const lowerWord = word.toLowerCase().replace(/[.,?!;:]$/, "");
+  let meaning = wordBook[lowerWord] || "Kelime defterinde kayıtlı değil.";
+
+  wordPopup.textContent = `${word}: ${meaning}`;
+  wordPopup.style.left = x + "px";
+  wordPopup.style.top = y + "px";
+  wordPopup.classList.add("visible");
+
+  // 3 saniye sonra otomatik kapat
+  setTimeout(() => wordPopup.classList.remove("visible"), 3000);
+}
+
+// Kelime defterini güncelle ve kaydet
+function addToWordBook(word) {
+  const lowerWord = word.toLowerCase().replace(/[.,?!;:]$/, "");
+  if (!(lowerWord in wordBook)) {
+    // Basit Türkçe anlamı prompt ile sorabiliriz (istersen geliştirebiliriz)
+    const meaning = prompt(`"${word}" kelimesinin Türkçe anlamını gir:`);
+    if (meaning && meaning.trim()) {
+      wordBook[lowerWord] = meaning.trim();
+      localStorage.setItem("wordBook", JSON.stringify(wordBook));
+      alert(`"${word}" kelimesi kelime defterine eklendi.`);
+      renderWordBook();
+    }
+  } else {
+    alert(`"${word}" kelimesi zaten kelime defterinde.`);
+  }
+}
+
+// Kelime defterini listele
+function renderWordBook() {
+  wordListEl.innerHTML = "";
+  for (const [word, meaning] of Object.entries(wordBook)) {
+    const li = document.createElement("li");
+    li.textContent = `${word} — ${meaning}`;
+    li.addEventListener("click", () => {
+      alert(`${word}: ${meaning}`);
+    });
+    wordListEl.appendChild(li);
+  }
+}
+
+// Olay dinleyiciler
+nextBtn.addEventListener("click", showSentence);
+
+engSentenceEl.addEventListener("click", e => {
+  if (e.target.classList.contains("clickable-word")) {
+    const word = e.target.textContent;
+    const rect = e.target.getBoundingClientRect();
+    addToWordBook(word);
+    showWordPopup(word, rect.left, rect.bottom);
+  }
 });
 
-// İlk yüklemede
-dailySentences = pickRandomSentences(DAILY_AMOUNT);
-showSentence(currentIndex);
+showWordbookBtn.addEventListener("click", () => {
+  wordBookSection.classList.remove("hidden");
+});
+
+closeWordbookBtn.addEventListener("click", () => {
+  wordBookSection.classList.add("hidden");
+});
+
+// İlk cümleyi göster
+showSentence();
+renderWordBook();
